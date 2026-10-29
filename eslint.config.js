@@ -1,0 +1,45 @@
+export default [
+  {
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'public/engine/**',
+      'test-results/**',
+      'playwright-report/**',
+    ],
+  },
+  {
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        chrome: 'readonly',
+        Worker: 'readonly',
+        URL: 'readonly',
+        Blob: 'readonly',
+        importScripts: 'readonly',
+        postMessage: 'readonly',
+        self: 'readonly',
+        fetch: 'readonly',
+        Event: 'readonly',
+        CustomEvent: 'readonly',
+        HTMLElement: 'readonly',
+        FileReader: 'readonly',
+      },
+    },
+    rules: {
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-undef': 'error',
+      'no-constant-condition': ['error', { checkLoops: false }],
+    },
+  },
+];
