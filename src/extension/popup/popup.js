@@ -13,6 +13,8 @@ import { parseFen } from '../../core/chess/fen.js';
 import { checkAnalysisPermission } from '../../core/analysis/permission-gate.js';
 import { MESSAGE_TYPES, createMessage } from '../../shared/messages.js';
 
+import { GameReviewer } from '../../core/chess/pgn.js';
+
 const UNICODE_PIECES = {
   K: '♔',
   Q: '♕',
@@ -35,6 +37,7 @@ let currentPerspective = EVALUATION_PERSPECTIVE.WHITE;
 let currentSource = POSITION_SOURCES.MANUAL;
 let isAnalyzing = false;
 let currentAnalysisResult = null;
+let gameReviewer = null;
 
 // DOM Elements
 const tabManual = document.getElementById('tabManual');
@@ -43,6 +46,16 @@ const tabBoard = document.getElementById('tabBoard');
 const manualContainer = document.getElementById('manualInputContainer');
 const pgnContainer = document.getElementById('pgnInputContainer');
 const boardContainer = document.getElementById('boardInputContainer');
+
+const pgnInput = document.getElementById('pgnInput');
+const loadPgnBtn = document.getElementById('loadPgnBtn');
+const pgnMoveCount = document.getElementById('pgnMoveCount');
+const pgnNavContainer = document.getElementById('pgnNavContainer');
+const pgnFirstBtn = document.getElementById('pgnFirstBtn');
+const pgnPrevBtn = document.getElementById('pgnPrevBtn');
+const pgnNextBtn = document.getElementById('pgnNextBtn');
+const pgnLastBtn = document.getElementById('pgnLastBtn');
+const pgnMoveIndicator = document.getElementById('pgnMoveIndicator');
 
 const fenInput = document.getElementById('fenInput');
 const loadFenBtn = document.getElementById('loadFenBtn');
@@ -84,6 +97,12 @@ function bindEvents() {
   tabManual?.addEventListener('click', () => switchTab(POSITION_SOURCES.MANUAL));
   tabPgn?.addEventListener('click', () => switchTab(POSITION_SOURCES.PGN_IMPORT));
   tabBoard?.addEventListener('click', () => switchTab(POSITION_SOURCES.CONTROLLED_TEST_BOARD));
+
+  loadPgnBtn?.addEventListener('click', handleLoadPgn);
+  pgnFirstBtn?.addEventListener('click', () => navigatePgn(() => gameReviewer.firstMove()));
+  pgnPrevBtn?.addEventListener('click', () => navigatePgn(() => gameReviewer.previousMove()));
+  pgnNextBtn?.addEventListener('click', () => navigatePgn(() => gameReviewer.nextMove()));
+  pgnLastBtn?.addEventListener('click', () => navigatePgn(() => gameReviewer.lastMove()));
 
   loadFenBtn?.addEventListener('click', () => {
     const val = fenInput.value.trim();
@@ -130,6 +149,34 @@ function bindEvents() {
       window.open('../options/options.html');
     }
   });
+}
+
+function handleLoadPgn() {
+  const pgnText = pgnInput.value.trim();
+  if (!pgnText) {
+    showStatus('Please enter or paste PGN text.', 'error');
+    return;
+  }
+
+  try {
+    gameReviewer = new GameReviewer(pgnText);
+    const pos = gameReviewer.getCurrentPosition();
+    loadPosition(pos.fen);
+
+    pgnMoveCount.textContent = `${gameReviewer.totalPlies} plies (${Math.ceil(gameReviewer.totalPlies / 2)} moves)`;
+    pgnNavContainer.classList.remove('hidden');
+    pgnMoveIndicator.textContent = 'Start';
+    showStatus('Game imported successfully. Replay moves using buttons.', 'success');
+  } catch (err) {
+    showStatus(`Failed to import PGN: ${err.message}`, 'error');
+  }
+}
+
+function navigatePgn(actionFn) {
+  if (!gameReviewer) return;
+  const pos = actionFn();
+  loadPosition(pos.fen);
+  pgnMoveIndicator.textContent = pos.ply === 0 ? 'Start' : `${pos.ply}. ${pos.san}`;
 }
 
 function switchTab(source) {
