@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetic Chessboard Test Environment</title>
+  <link rel="stylesheet" href="./test-board.css">
+</head>
+<body>
+  <div class="test-container">
+    <header class="test-header">
+      <h1>Synthetic Chessboard Test Environment</h1>
+      <p class="subtitle">Controlled DOM-based board recognition test fixture for Chess Agent</p>
+    </header>
+
+    <div class="test-layout">
+      <div class="board-wrapper">
+        <div id="syntheticChessboard" class="chessboard" data-orientation="white-bottom">
+          <!-- 64 squares dynamically generated or updated -->
+        </div>
+        <div class="board-info">
+          <span>Orientation: <strong id="orientationLabel">white-bottom</strong></span>
+          <span>Current FEN: <code id="currentFenLabel">rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</code></span>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <h2>Position Presets</h2>
+        <div class="btn-group">
+          <button id="presetStartpos" class="btn">Starting Pos</button>
+          <button id="presetE4" class="btn">1. e4</button>
+          <button id="presetE4E5" class="btn">1... e5</button>
+          <button id="presetCastling" class="btn">Ready to Castle</button>
+          <button id="presetPromotion" class="btn">Pawn on 7th</button>
+          <button id="presetEndgame" class="btn">K+P Endgame</button>
+          <button id="presetIncomplete" class="btn btn-warning">Incomplete (Missing King)</button>
+        </div>
+
+        <h2>Board Orientation</h2>
+        <div class="btn-group">
+          <button id="toggleOrientationBtn" class="btn btn-primary">Flip Orientation</button>
+        </div>
+
+        <h2>Manual Move Simulator</h2>
+        <div class="move-input-group">
+          <input type="text" id="manualMoveInput" placeholder="e.g. e2e4, e7e5" class="text-input">
+          <button id="applyMoveBtn" class="btn">Apply Move</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./test-board.js"></script>
+</body>
+</html>
