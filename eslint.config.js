@@ -34,6 +34,8 @@ export default [
         CustomEvent: 'readonly',
         HTMLElement: 'readonly',
         FileReader: 'readonly',
+        localStorage: 'readonly',
+        alert: 'readonly',
       },
     },
     rules: {

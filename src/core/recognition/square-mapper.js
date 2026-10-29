@@ -32,7 +32,10 @@ export function toSquare(fileIndex, rankIndex) {
  */
 export function fromSquare(square) {
   if (!square || typeof square !== 'string' || square.length !== 2) {
-    throw new ChessAgentError(ERROR_CODES.INVALID_PAYLOAD, `Invalid square coordinate: '${square}'`);
+    throw new ChessAgentError(
+      ERROR_CODES.INVALID_PAYLOAD,
+      `Invalid square coordinate: '${square}'`
+    );
   }
   const file = square[0].toLowerCase();
   const rank = square[1];
@@ -40,7 +43,10 @@ export function fromSquare(square) {
   const rankIndex = RANKS.indexOf(rank);
 
   if (fileIndex === -1 || rankIndex === -1) {
-    throw new ChessAgentError(ERROR_CODES.INVALID_PAYLOAD, `Invalid square coordinate: '${square}'`);
+    throw new ChessAgentError(
+      ERROR_CODES.INVALID_PAYLOAD,
+      `Invalid square coordinate: '${square}'`
+    );
   }
 
   return { fileIndex, rankIndex, file, rank };
@@ -57,7 +63,10 @@ export function fromSquare(square) {
  */
 export function gridToSquare(row, col, orientation = ORIENTATIONS.WHITE_BOTTOM) {
   if (row < 0 || row > 7 || col < 0 || col > 7) {
-    throw new ChessAgentError(ERROR_CODES.INVALID_PAYLOAD, `Grid indices out of bounds: row=${row}, col=${col}`);
+    throw new ChessAgentError(
+      ERROR_CODES.INVALID_PAYLOAD,
+      `Grid indices out of bounds: row=${row}, col=${col}`
+    );
   }
 
   if (orientation === ORIENTATIONS.WHITE_BOTTOM) {

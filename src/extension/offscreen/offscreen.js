@@ -4,7 +4,11 @@
 
 import { UciClient } from '../../core/engine/uci-client.js';
 import { AnalysisController } from '../../core/analysis/analysis-controller.js';
-import { MESSAGE_TYPES, createSuccessResponse, createErrorResponse } from '../../shared/messages.js';
+import {
+  MESSAGE_TYPES,
+  createSuccessResponse,
+  createErrorResponse,
+} from '../../shared/messages.js';
 import { ERROR_CODES } from '../../shared/errors.js';
 
 let controller = null;
@@ -14,7 +18,9 @@ function initEngine() {
   if (controller) return controller;
 
   // Stockfish single-threaded WASM runner in worker
-  const workerUrl = chrome.runtime ? chrome.runtime.getURL('engine/stockfish/stockfish.js') : '/engine/stockfish/stockfish.js';
+  const workerUrl = chrome.runtime
+    ? chrome.runtime.getURL('engine/stockfish/stockfish.js')
+    : '/engine/stockfish/stockfish.js';
   const worker = new Worker(workerUrl);
 
   const transport = {

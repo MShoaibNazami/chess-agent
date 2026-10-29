@@ -3,7 +3,7 @@
  * Computes delta between two piece maps.
  */
 
-import { FILES, RANKS, toSquare } from './square-mapper.js';
+import { toSquare } from './square-mapper.js';
 
 /**
  * Compares two piece maps and returns the difference.

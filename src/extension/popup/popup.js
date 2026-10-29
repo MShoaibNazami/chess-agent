@@ -2,15 +2,30 @@
  * Extension Popup UI controller.
  */
 
-import { STARTING_FEN, ORIENTATIONS, EVALUATION_PERSPECTIVE, POSITION_SOURCES } from '../../shared/constants.js';
+import {
+  STARTING_FEN,
+  ORIENTATIONS,
+  EVALUATION_PERSPECTIVE,
+  POSITION_SOURCES,
+} from '../../shared/constants.js';
 import { validatePosition } from '../../core/chess/position-validator.js';
 import { parseFen } from '../../core/chess/fen.js';
 import { checkAnalysisPermission } from '../../core/analysis/permission-gate.js';
 import { MESSAGE_TYPES, createMessage } from '../../shared/messages.js';
 
 const UNICODE_PIECES = {
-  K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
-  k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟',
+  K: '♔',
+  Q: '♕',
+  R: '♖',
+  B: '♗',
+  N: '♘',
+  P: '♙',
+  k: '♚',
+  q: '♛',
+  r: '♜',
+  b: '♝',
+  n: '♞',
+  p: '♟',
 };
 
 // State
@@ -178,9 +193,13 @@ export function renderBoard(fen) {
   const ranks = parsed.ranks; // 8 strings from rank 8 down to 1
 
   const rankIndices =
-    currentOrientation === ORIENTATIONS.WHITE_BOTTOM ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0];
+    currentOrientation === ORIENTATIONS.WHITE_BOTTOM
+      ? [0, 1, 2, 3, 4, 5, 6, 7]
+      : [7, 6, 5, 4, 3, 2, 1, 0];
   const fileIndices =
-    currentOrientation === ORIENTATIONS.WHITE_BOTTOM ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0];
+    currentOrientation === ORIENTATIONS.WHITE_BOTTOM
+      ? [0, 1, 2, 3, 4, 5, 6, 7]
+      : [7, 6, 5, 4, 3, 2, 1, 0];
 
   for (const rIdx of rankIndices) {
     const rankStr = ranks[rIdx];
@@ -210,6 +229,7 @@ export function renderBoard(fen) {
 }
 
 async function startAnalysis() {
+  if (isAnalyzing) return;
   const perm = checkAnalysisPermission({ source: currentSource });
   if (!perm.permitted) {
     showStatus(perm.reason, 'error');

@@ -1,172 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chess Agent</title>
-  <link rel="stylesheet" href="./popup.css">
-</head>
-<body>
-  <div class="app-container">
-    <header class="app-header">
-      <div class="header-brand">
-        <img src="/icons/icon-32.png" alt="Chess Agent Logo" class="brand-icon">
-        <h1 class="brand-title">Chess Agent</h1>
-      </div>
-      <div class="header-actions">
-        <span id="permissionBadge" class="badge badge-permitted" title="Current permission status">Permitted</span>
-        <button id="openOptionsBtn" class="icon-button" title="Settings" aria-label="Settings">⚙️</button>
-      </div>
-    </header>
-
-    <main class="app-main">
-      <!-- Input Mode Selector -->
-      <nav class="mode-tabs" role="tablist">
-        <button id="tabManual" class="tab active" role="tab" aria-selected="true">Manual FEN</button>
-        <button id="tabPgn" class="tab" role="tab" aria-selected="false">Game PGN</button>
-        <button id="tabBoard" class="tab" role="tab" aria-selected="false">Test Board</button>
-      </nav>
-
-      <!-- Section: Input -->
-      <section class="panel-section" id="inputSection">
-        <div id="manualInputContainer" class="input-container">
-          <label for="fenInput" class="input-label">Enter FEN Position:</label>
-          <div class="input-row">
-            <input
-              type="text"
-              id="fenInput"
-              class="text-input"
-              placeholder="e.g. rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-              spellcheck="false"
-            />
-            <button id="loadFenBtn" class="btn btn-secondary">Load</button>
-          </div>
-          <div class="quick-actions">
-            <button id="startposBtn" class="btn btn-sm btn-ghost">Starting Pos</button>
-            <button id="clearBtn" class="btn btn-sm btn-ghost">Clear</button>
-          </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Agent</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="app-header">
+        <div class="header-brand">
+          <img src="/icons/icon-32.png" alt="Chess Agent Logo" class="brand-icon" />
+          <h1 class="brand-title">Chess Agent</h1>
         </div>
-
-        <div id="pgnInputContainer" class="input-container hidden">
-          <label for="pgnInput" class="input-label">Paste Completed PGN:</label>
-          <textarea
-            id="pgnInput"
-            class="textarea-input"
-            rows="3"
-            placeholder="[Event &quot;Casual Game&quot;]&#10;1. e4 e5 2. Nf3 Nc6..."
-          ></textarea>
-          <div class="input-row">
-            <button id="loadPgnBtn" class="btn btn-secondary">Import Game</button>
-            <span id="pgnMoveCount" class="text-muted"></span>
-          </div>
-          <div id="pgnNavContainer" class="pgn-nav hidden">
-            <button id="pgnFirstBtn" class="btn btn-sm">|&lt;</button>
-            <button id="pgnPrevBtn" class="btn btn-sm">&lt;</button>
-            <span id="pgnMoveIndicator" class="move-indicator">Start</span>
-            <button id="pgnNextBtn" class="btn btn-sm">&gt;</button>
-            <button id="pgnLastBtn" class="btn btn-sm">&gt;|</button>
-          </div>
+        <div class="header-actions">
+          <span id="permissionBadge" class="badge badge-permitted" title="Current permission status"
+            >Permitted</span
+          >
+          <button id="openOptionsBtn" class="icon-button" title="Settings" aria-label="Settings">
+            ⚙️
+          </button>
         </div>
+      </header>
 
-        <div id="boardInputContainer" class="input-container hidden">
-          <p class="section-description">
-            Connect to the active controlled synthetic test board to inspect rendered positions.
-          </p>
-          <button id="scanBoardBtn" class="btn btn-secondary">Scan Controlled Board</button>
-          <div id="boardScanStatus" class="scan-status text-muted">Awaiting scan...</div>
-        </div>
-      </section>
+      <main class="app-main">
+        <!-- Input Mode Selector -->
+        <nav class="mode-tabs" role="tablist">
+          <button id="tabManual" class="tab active" role="tab" aria-selected="true">
+            Manual FEN
+          </button>
+          <button id="tabPgn" class="tab" role="tab" aria-selected="false">Game PGN</button>
+          <button id="tabBoard" class="tab" role="tab" aria-selected="false">Test Board</button>
+        </nav>
 
-      <!-- Section: Position Details -->
-      <section class="panel-section" id="positionSection">
-        <div class="section-header">
-          <h2 class="section-title">Position</h2>
-          <div class="position-badges">
-            <span id="validationBadge" class="badge badge-valid">Valid</span>
-            <button id="flipBoardBtn" class="btn btn-sm btn-ghost" title="Flip Board Orientation">Flip ⟳</button>
-          </div>
-        </div>
-
-        <div class="board-view-container">
-          <div id="miniBoard" class="mini-board white-bottom" aria-label="Chessboard Preview"></div>
-        </div>
-
-        <div class="position-metadata">
-          <div class="metadata-item">
-            <span class="meta-label">Active:</span>
-            <span id="metaActiveColor" class="meta-val">White</span>
-          </div>
-          <div class="metadata-item">
-            <span class="meta-label">Castling:</span>
-            <span id="metaCastling" class="meta-val">KQkq</span>
-          </div>
-          <div class="metadata-item">
-            <span class="meta-label">En Passant:</span>
-            <span id="metaEnPassant" class="meta-val">-</span>
-          </div>
-          <div class="metadata-item">
-            <span class="meta-label">Confidence:</span>
-            <span id="metaConfidence" class="meta-val">100%</span>
-          </div>
-        </div>
-
-        <div id="statusMessage" class="status-box hidden" role="alert"></div>
-      </section>
-
-      <!-- Section: Analysis -->
-      <section class="panel-section" id="analysisSection">
-        <div class="section-header">
-          <h2 class="section-title">Analysis</h2>
-          <div class="engine-controls">
-            <span id="engineBadge" class="badge badge-idle">Engine Idle</span>
-            <button id="togglePerspectiveBtn" class="btn btn-sm btn-ghost" title="Evaluation Perspective">
-              Persp: <span id="perspLabel">White</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="analysis-action-bar">
-          <button id="analyzeBtn" class="btn btn-primary">Start Analysis</button>
-          <button id="cancelAnalyzeBtn" class="btn btn-danger hidden">Stop</button>
-          <div class="depth-selector">
-            <label for="depthSelect" class="depth-label">Depth:</label>
-            <select id="depthSelect" class="select-input">
-              <option value="6">6 (Fast)</option>
-              <option value="10">10 (Balanced)</option>
-              <option value="12" selected>12 (Standard)</option>
-              <option value="16">16 (Deep)</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="prohibitedNotice" class="prohibited-notice hidden">
-          ⚠️ Engine assistance is disabled in this context to adhere to fair-play rules.
-        </div>
-
-        <div class="analysis-results" id="analysisResults">
-          <div class="eval-row">
-            <div class="eval-box">
-              <span class="eval-label">Evaluation:</span>
-              <span id="evalScore" class="eval-value">+0.00</span>
+        <!-- Section: Input -->
+        <section class="panel-section" id="inputSection">
+          <div id="manualInputContainer" class="input-container">
+            <label for="fenInput" class="input-label">Enter FEN Position:</label>
+            <div class="input-row">
+              <input
+                type="text"
+                id="fenInput"
+                class="text-input"
+                placeholder="e.g. rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+                spellcheck="false"
+              />
+              <button id="loadFenBtn" class="btn btn-secondary">Load</button>
             </div>
-            <div class="eval-box">
-              <span class="eval-label">Best Move:</span>
-              <span id="evalBestMove" class="eval-value-bold">--</span>
+            <div class="quick-actions">
+              <button id="startposBtn" class="btn btn-sm btn-ghost">Starting Pos</button>
+              <button id="clearBtn" class="btn btn-sm btn-ghost">Clear</button>
             </div>
           </div>
-          <div class="pv-row">
-            <span class="pv-label">Line:</span>
-            <span id="evalPv" class="pv-moves">--</span>
+
+          <div id="pgnInputContainer" class="input-container hidden">
+            <label for="pgnInput" class="input-label">Paste Completed PGN:</label>
+            <textarea
+              id="pgnInput"
+              class="textarea-input"
+              rows="3"
+              placeholder='[Event "Casual Game"]&#10;1. e4 e5 2. Nf3 Nc6...'
+            ></textarea>
+            <div class="input-row">
+              <button id="loadPgnBtn" class="btn btn-secondary">Import Game</button>
+              <span id="pgnMoveCount" class="text-muted"></span>
+            </div>
+            <div id="pgnNavContainer" class="pgn-nav hidden">
+              <button id="pgnFirstBtn" class="btn btn-sm">|&lt;</button>
+              <button id="pgnPrevBtn" class="btn btn-sm">&lt;</button>
+              <span id="pgnMoveIndicator" class="move-indicator">Start</span>
+              <button id="pgnNextBtn" class="btn btn-sm">&gt;</button>
+              <button id="pgnLastBtn" class="btn btn-sm">&gt;|</button>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
 
-    <footer class="app-footer">
-      <span class="footer-text">Chess Agent v1.0.0 · Local Stockfish 19 WASM</span>
-    </footer>
-  </div>
+          <div id="boardInputContainer" class="input-container hidden">
+            <p class="section-description">
+              Connect to the active controlled synthetic test board to inspect rendered positions.
+            </p>
+            <button id="scanBoardBtn" class="btn btn-secondary">Scan Controlled Board</button>
+            <div id="boardScanStatus" class="scan-status text-muted">Awaiting scan...</div>
+          </div>
+        </section>
 
-  <script type="module" src="./popup.js"></script>
-</body>
+        <!-- Section: Position Details -->
+        <section class="panel-section" id="positionSection">
+          <div class="section-header">
+            <h2 class="section-title">Position</h2>
+            <div class="position-badges">
+              <span id="validationBadge" class="badge badge-valid">Valid</span>
+              <button id="flipBoardBtn" class="btn btn-sm btn-ghost" title="Flip Board Orientation">
+                Flip ⟳
+              </button>
+            </div>
+          </div>
+
+          <div class="board-view-container">
+            <div
+              id="miniBoard"
+              class="mini-board white-bottom"
+              aria-label="Chessboard Preview"
+            ></div>
+          </div>
+
+          <div class="position-metadata">
+            <div class="metadata-item">
+              <span class="meta-label">Active:</span>
+              <span id="metaActiveColor" class="meta-val">White</span>
+            </div>
+            <div class="metadata-item">
+              <span class="meta-label">Castling:</span>
+              <span id="metaCastling" class="meta-val">KQkq</span>
+            </div>
+            <div class="metadata-item">
+              <span class="meta-label">En Passant:</span>
+              <span id="metaEnPassant" class="meta-val">-</span>
+            </div>
+            <div class="metadata-item">
+              <span class="meta-label">Confidence:</span>
+              <span id="metaConfidence" class="meta-val">100%</span>
+            </div>
+          </div>
+
+          <div id="statusMessage" class="status-box hidden" role="alert"></div>
+        </section>
+
+        <!-- Section: Analysis -->
+        <section class="panel-section" id="analysisSection">
+          <div class="section-header">
+            <h2 class="section-title">Analysis</h2>
+            <div class="engine-controls">
+              <span id="engineBadge" class="badge badge-idle">Engine Idle</span>
+              <button
+                id="togglePerspectiveBtn"
+                class="btn btn-sm btn-ghost"
+                title="Evaluation Perspective"
+              >
+                Persp: <span id="perspLabel">White</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="analysis-action-bar">
+            <button id="analyzeBtn" class="btn btn-primary">Start Analysis</button>
+            <button id="cancelAnalyzeBtn" class="btn btn-danger hidden">Stop</button>
+            <div class="depth-selector">
+              <label for="depthSelect" class="depth-label">Depth:</label>
+              <select id="depthSelect" class="select-input">
+                <option value="6">6 (Fast)</option>
+                <option value="10">10 (Balanced)</option>
+                <option value="12" selected>12 (Standard)</option>
+                <option value="16">16 (Deep)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="prohibitedNotice" class="prohibited-notice hidden">
+            ⚠️ Engine assistance is disabled in this context to adhere to fair-play rules.
+          </div>
+
+          <div class="analysis-results" id="analysisResults">
+            <div class="eval-row">
+              <div class="eval-box">
+                <span class="eval-label">Evaluation:</span>
+                <span id="evalScore" class="eval-value">+0.00</span>
+              </div>
+              <div class="eval-box">
+                <span class="eval-label">Best Move:</span>
+                <span id="evalBestMove" class="eval-value-bold">--</span>
+              </div>
+            </div>
+            <div class="pv-row">
+              <span class="pv-label">Line:</span>
+              <span id="evalPv" class="pv-moves">--</span>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span class="footer-text">Chess Agent v1.0.0 · Local Stockfish 19 WASM</span>
+      </footer>
+    </div>
+
+    <script type="module" src="./popup.js"></script>
+  </body>
 </html>

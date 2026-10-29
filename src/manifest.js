@@ -40,11 +40,7 @@ export function getManifest(pkg = {}) {
     },
     web_accessible_resources: [
       {
-        resources: [
-          'engine/stockfish/stockfish.js',
-          'engine/stockfish/stockfish.wasm',
-          'icons/*',
-        ],
+        resources: ['engine/stockfish/stockfish.js', 'engine/stockfish/stockfish.wasm', 'icons/*'],
         matches: ['<all_urls>'],
       },
     ],

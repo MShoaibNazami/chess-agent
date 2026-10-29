@@ -7,8 +7,18 @@ import { gridToSquare } from '../../src/core/recognition/square-mapper.js';
 import { STARTING_FEN, ORIENTATIONS } from '../../src/shared/constants.js';
 
 const UNICODE_PIECES = {
-  K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
-  k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟',
+  K: '♔',
+  Q: '♕',
+  R: '♖',
+  B: '♗',
+  N: '♘',
+  P: '♙',
+  k: '♚',
+  q: '♛',
+  r: '♜',
+  b: '♝',
+  n: '♞',
+  p: '♟',
 };
 
 const PRESETS = {
@@ -106,13 +116,23 @@ function bindControls() {
     renderBoard();
   });
 
-  document.getElementById('presetStartpos')?.addEventListener('click', () => setPosition(PRESETS.startpos));
+  document
+    .getElementById('presetStartpos')
+    ?.addEventListener('click', () => setPosition(PRESETS.startpos));
   document.getElementById('presetE4')?.addEventListener('click', () => setPosition(PRESETS.e4));
   document.getElementById('presetE4E5')?.addEventListener('click', () => setPosition(PRESETS.e4e5));
-  document.getElementById('presetCastling')?.addEventListener('click', () => setPosition(PRESETS.castling));
-  document.getElementById('presetPromotion')?.addEventListener('click', () => setPosition(PRESETS.promotion));
-  document.getElementById('presetEndgame')?.addEventListener('click', () => setPosition(PRESETS.endgame));
-  document.getElementById('presetIncomplete')?.addEventListener('click', () => setPosition(PRESETS.incomplete));
+  document
+    .getElementById('presetCastling')
+    ?.addEventListener('click', () => setPosition(PRESETS.castling));
+  document
+    .getElementById('presetPromotion')
+    ?.addEventListener('click', () => setPosition(PRESETS.promotion));
+  document
+    .getElementById('presetEndgame')
+    ?.addEventListener('click', () => setPosition(PRESETS.endgame));
+  document
+    .getElementById('presetIncomplete')
+    ?.addEventListener('click', () => setPosition(PRESETS.incomplete));
 
   applyMoveBtn?.addEventListener('click', () => {
     const moveStr = manualMoveInput.value.trim();

@@ -24,9 +24,7 @@ chrome.runtime?.onMessage?.addListener((message, _sender, sendResponse) => {
 const initialObs = TestBoardAdapter.scan(document);
 if (initialObs) {
   try {
-    chrome.runtime?.sendMessage(
-      createMessage(MESSAGE_TYPES.BOARD_OBSERVATION, initialObs)
-    );
+    chrome.runtime?.sendMessage(createMessage(MESSAGE_TYPES.BOARD_OBSERVATION, initialObs));
   } catch {
     // Port closed or background not active yet
   }

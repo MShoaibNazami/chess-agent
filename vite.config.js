@@ -1,8 +1,10 @@
 import { resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { readFileSync } from 'fs';
 import { defineConfig } from 'vite';
 import { getManifest } from './src/manifest.js';
 
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
 function manifestPlugin() {

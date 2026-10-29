@@ -78,7 +78,8 @@ export function evaluateObservationConfidence(observation) {
   }
 
   const finalConfidence = Math.max(0, Math.min(1, Math.round(rawConfidence * 100) / 100));
-  const isAcceptable = finalConfidence >= CONFIDENCE_THRESHOLDS.MINIMUM_ACCEPTABLE && issues.length === 0;
+  const isAcceptable =
+    finalConfidence >= CONFIDENCE_THRESHOLDS.MINIMUM_ACCEPTABLE && issues.length === 0;
   const requiresConfirmation = !isAcceptable || finalConfidence < CONFIDENCE_THRESHOLDS.HIGH;
 
   return {
