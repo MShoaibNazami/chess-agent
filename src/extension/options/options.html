@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Agent Settings</title>
+  <link rel="stylesheet" href="./options.css">
+</head>
+<body>
+  <div class="settings-container">
+    <header class="settings-header">
+      <img src="/icons/icon-48.png" alt="Chess Agent" class="settings-logo">
+      <div>
+        <h1>Chess Agent Settings</h1>
+        <p class="subtitle">Engine configuration, recognition limits, and privacy controls</p>
+      </div>
+    </header>
+
+    <main class="settings-main">
+      <section class="card">
+        <h2>Engine Search Limits</h2>
+        <div class="form-group">
+          <label for="defaultDepth">Default Search Depth:</label>
+          <select id="defaultDepth" class="input-select">
+            <option value="8">8 (Fastest)</option>
+            <option value="10">10</option>
+            <option value="12" selected>12 (Recommended)</option>
+            <option value="14">14</option>
+            <option value="16">16 (Thorough)</option>
+          </select>
+          <span class="field-hint">Higher depths provide more precise evaluations but require more computation.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="timeoutLimit">Search Timeout (seconds):</label>
+          <input type="number" id="timeoutLimit" min="3" max="60" value="10" class="input-number">
+          <span class="field-hint">Engine search will automatically cancel if it exceeds this time limit.</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Evaluation Preferences</h2>
+        <div class="form-group">
+          <label for="evalPerspective">Preferred Score Perspective:</label>
+          <select id="evalPerspective" class="input-select">
+            <option value="white" selected>White Perspective (+ means White advantage)</option>
+            <option value="side-to-move">Side-to-Move Perspective (+ means active player advantage)</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Privacy and Local Data</h2>
+        <p class="data-notice">
+          All positions, analysis calculations, and game data remain entirely on your local machine.
+          No credentials or remote analytics are gathered.
+        </p>
+        <div class="button-row">
+          <button id="clearDataBtn" class="btn btn-danger">Clear Stored Extension Data</button>
+          <span id="dataStatus" class="status-msg hidden">Data cleared</span>
+        </div>
+      </section>
+
+      <div class="save-bar">
+        <button id="saveBtn" class="btn btn-primary">Save Settings</button>
+        <span id="saveStatus" class="status-msg hidden">Saved successfully!</span>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./options.js"></script>
+</body>
+</html>
