@@ -1,0 +1,12 @@
+{
+  "startpos": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+  "midgame": "r1bqk2r/pp2bppp/2n1pn2/2pp4/3P4/2N1PN2/PPP1BPPP/R1BQ1RK1 w kq - 4 7",
+  "endgame": "8/5k2/8/8/8/8/4K1P1/8 w - - 0 1",
+  "castlingReady": "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1",
+  "enPassantTarget": "rnbqkbnr/pp2pppp/8/2ppP3/8/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 3",
+  "promotionReady": "8/4P3/4k3/8/8/8/8/4K3 w - - 0 1",
+  "checkmateFools": "rnb1kbnr/pppp1ppp/4p3/8/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3",
+  "stalemate": "7k/5K2/6Q1/8/8/8/8/8 b - - 0 1",
+  "illegalPawnRank8": "rnbqkbnP/pppppppp/8/8/8/8/PPPPPPP1/RNBQKBNR w KQkq - 0 1",
+  "illegalMissingKing": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQ1BNR w KQkq - 0 1"
+}
