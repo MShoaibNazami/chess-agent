@@ -12,7 +12,7 @@ This extension redistributes or depends upon the following open-source third-par
 - **License**: GNU General Public License v3.0 (GPL-3.0)
 - **Redistribution Notice**:
   Stockfish is free software licensed under the GNU General Public License v3.0.
-  A full copy of the GPL v3.0 license is included at `public/engine/stockfish/LICENSE.txt` and `LICENSE`.
+  A full copy of the GPL v3.0 license is included at `public/engine/stockfish/LICENSE.txt`.
   The original source code for Stockfish and instructions to compile it to WebAssembly are available from the official repository: https://github.com/official-stockfish/Stockfish.
 
 ---

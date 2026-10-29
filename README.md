@@ -128,7 +128,8 @@ The extension requests only minimal permissions:
 
 ---
 
-## 8. Third-Party Licenses
+## 8. License & Third-Party Notices
 
-- **Stockfish Engine**: GNU General Public License v3.0 (GPL-3.0) — see `LICENSE` and `THIRD_PARTY_NOTICES.md`.
+- **Extension Codebase**: Licensed under the [MIT License](LICENSE) (Copyright (c) 2026 MShoaibNazami).
+- **Stockfish Engine Asset**: GNU General Public License v3.0 (GPL-3.0) — see `public/engine/stockfish/LICENSE.txt` and `THIRD_PARTY_NOTICES.md`.
 - **chess.js**: BSD 2-Clause License.
